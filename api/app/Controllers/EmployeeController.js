@@ -1,7 +1,7 @@
 const dbConnection = require('../../database/mySQLconnect');
 
 const allEmployees = async (ctx) => {
-    console.log('routes all routes called.');
+    console.log('employee all employees called.');
     return new Promise((resolve, reject) => {
         const query = `
                        SELECT *
