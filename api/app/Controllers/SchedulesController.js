@@ -35,7 +35,39 @@ const employeeSchedule = (ctx) => {
         });
 }
 
+const addSchedule = (ctx) {
+    console.log('message add message called.');
+    return new Promise((resolve, reject) => {
+        const query = `
+                       INSERT 
+                       INTO 
+                       messages 
+                       (messageID, senderID, receiverID, message) 
+                       VALUES 
+                       (?, ?, ?)
+                       `;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.messageID, ctx.params.senderID, ctx.params.receiverID, ctx.params.message]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in MessageController::addMessage", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in addMessage.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
 
 module.exports = {
-    employeeSchedule
+    employeeSchedule,
+    addSchedule
 }
