@@ -17,7 +17,7 @@ const employeeSchedule = (ctx) => {
                 values: [ctx.params.employeeID]
             }, (error, tuples) => {
                 if (error) {
-                    console.log("Connection error in MarketController::marketWithMarketID", error);
+                    console.log("Connection error in SchedulesController::employeeSchedule", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
@@ -27,7 +27,7 @@ const employeeSchedule = (ctx) => {
                 return resolve();
             });
         }).catch(err => {
-            console.log("Database connection error in allMarkets.", err);
+            console.log("Database connection error in employeeSchedule.", err);
             // The UI side will have to look for the value of status and
             // if it is not 200, act appropriately.
             ctx.body = [];
