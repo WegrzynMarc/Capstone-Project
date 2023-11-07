@@ -1,15 +1,41 @@
 const dbConnection = require('../../database/mySQLconnect');
 
 // Check a specific employee's schedule
-// Check a specific employee's specific schedule
+
+const employeeSchedule = (ctx) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            schedule
+                        WHERE 
+                            employeeID = ?
+                        ORDER BY employeeID
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.employeeID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in MarketController::marketWithMarketID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => {
+            console.log("Database connection error in allMarkets.", err);
+            // The UI side will have to look for the value of status and
+            // if it is not 200, act appropriately.
+            ctx.body = [];
+            ctx.status = 500;
+        });
+}
+
 
 module.exports = {
-    employeeSchedule,
-    employeeMonday,
-    employeeTuesday,
-    employeeWednesday,
-    employeeThursday,
-    employeeFriday,
-    employeeSaturday,
-    employeeSunday
+    employeeSchedule
 }
