@@ -20,13 +20,9 @@ CREATE USER 'userName'@'%' IDENTIFIED BY 'same password here';
 
 CREATE DATABASE emps_services;
 
-GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'localhost'
-
-        WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'localhost' WITH GRANT OPTION;
         
-GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'%'
-
-        WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'%' WITH GRANT OPTION;
         
 
 This command works on windows in the command prompt.
