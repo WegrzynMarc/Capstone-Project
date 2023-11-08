@@ -12,14 +12,14 @@ If you already have a database and have set it up, skip this step.
 Otherwise, you'll need to download a database like MariaDB or mySQL in order to continue
 The following commands should work when using MariaDB 10.11.
 
-These commands work for making said user:
+These commands work for making said user.
 CREATE USER 'userName'@'localhost' IDENTIFIED BY 'password here';
 CREATE USER 'userName'@'%' IDENTIFIED BY 'same password here';
 CREATE DATABASE emps_services;
-    GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'localhost'
-          WITH GRANT OPTION;
-    GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'%'
-          WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'localhost'
+        WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON emps_services.* TO 'userName'@'%'
+        WITH GRANT OPTION;
 
 This command works on windows in the command prompt.
 "{filepath to mysql.exe}" -u {username} -p {database name} < "{filepath to the .sql file}"
