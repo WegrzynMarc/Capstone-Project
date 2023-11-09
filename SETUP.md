@@ -46,7 +46,9 @@ emps_API_CLEAN
 
 Step 5:
 For emps_API_CLEAN, you will start the API server using "node api_server.js"
+
 For emps_UI_CLEAN, you will start the react frontend using "npm start"
+
 The database should work if you've configured your "mySQLconnect.js" file properly in the API server
 
 Step 6:
