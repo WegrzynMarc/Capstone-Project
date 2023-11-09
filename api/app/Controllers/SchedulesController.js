@@ -41,17 +41,17 @@ const addSchedule = (ctx) {
         const query = `
                        INSERT 
                        INTO 
-                       messages 
-                       (messageID, senderID, receiverID, message) 
+                       schedule 
+                       (employeeID, startTime, endTime) 
                        VALUES 
                        (?, ?, ?)
                        `;
         dbConnection.query({
             sql: query,
-            values: [ctx.params.messageID, ctx.params.senderID, ctx.params.receiverID, ctx.params.message]
+            values: [ctx.params.employeeID, ctx.params.startTime, ctx.params.endTime]
         }, (error, tuples) => {
             if (error) {
-                console.log("Connection error in MessageController::addMessage", error);
+                console.log("Connection error in SchedulesController::addSchedule", error);
                 return reject(error);
             }
             ctx.body = tuples;
@@ -59,7 +59,7 @@ const addSchedule = (ctx) {
             return resolve();
         });
     }).catch(err => {
-        console.log("Database connection error in addMessage.", err);
+        console.log("Database connection error in addSchedule.", err);
         // The UI side will have to look for the value of status and
         // if it is not 200, act appropriately.
         ctx.body = [];
