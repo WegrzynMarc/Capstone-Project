@@ -7,6 +7,12 @@ Step 2:
 Using a software like VSCode, open the emps_UI_CLEAN folder and do npm install.
 Repeat this for emps_API_CLEAN to get all the packages installed.
 
+If this command returns an error, it means you need to install Node.js and NPM.
+Follow this link to install these two pieces of software, then restart your computer / device
+before continuing.
+
+https://nodejs.org/en/download
+
 Step 3:
 If you already have a database and have set it up, skip this step.
 Otherwise, you'll need to download a database like MariaDB or mySQL in order to continue
