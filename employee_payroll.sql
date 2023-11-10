@@ -62,11 +62,12 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
+  `messageID` char(20) NOT NULL,
   `senderID` char(20) NOT NULL,
   `receiverID` char(20) NOT NULL,
   `date` date DEFAULT NULL,
   `message` text NOT NULL,
-  PRIMARY KEY (`senderID`, `receiverID`, `date`)
+  PRIMARY KEY (`messageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -77,23 +78,23 @@ CREATE TABLE `messages` (
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 INSERT INTO `messages` VALUES 
-('000002', '000001', '2023-01-01', "Insert Message Here"),
-('000002', '000003', '2023-01-01', "Insert Message Here"),
-('000000', '000001', '2023-01-01', "Flagged for X"),
-('000000', '000003', '2023-01-01', "Flagged for Y"),
-('000002', '000004', '2023-01-01', "Insert Message Here"),
-('000002', '000005', '2023-01-01', "Never Gonna Give You Up"),
-('000002', '000006', '2023-01-01', "Never Gonna Let You Down"),
-('000002', '000007', '2023-01-01', "Insert Message Here"),
-('000002', '000008', '2023-01-01', "Insert Message Here"),
-('000002', '000009', '2023-01-01', "Insert Message Here"),
-('000002', '000011', '2023-01-01', "Insert Message Here"),
-('000007', '000001', '2023-01-01', "Insert Message Here"),
-('000007', '000003', '2023-01-01', "Insert Message Here"),
-('000007', '000004', '2023-01-01', "Insert Message Here"),
-('000007', '000005', '2023-01-01', "Insert Message Here"),
-('000007', '000006', '2023-01-01', "Insert Message Here"),
-('000007', '000010', '2023-01-01', "Insert Message Here");
+('000000', '000002', '000001', '2023-01-01', "Insert Message Here"),
+('000001', '000002', '000003', '2023-01-01', "Insert Message Here"),
+('000002', '000000', '000001', '2023-01-01', "Flagged for X"),
+('000003', '000000', '000003', '2023-01-01', "Flagged for Y"),
+('000004', '000002', '000004', '2023-01-01', "Insert Message Here"),
+('000005', '000002', '000005', '2023-01-01', "Never Gonna Give You Up"),
+('000006', '000002', '000006', '2023-01-01', "Never Gonna Let You Down"),
+('000007', '000002', '000007', '2023-01-01', "Insert Message Here"),
+('000008', '000002', '000008', '2023-01-01', "Insert Message Here"),
+('000009', '000002', '000009', '2023-01-01', "Insert Message Here"),
+('000010', '000002', '000011', '2023-01-01', "Insert Message Here"),
+('000011', '000007', '000001', '2023-01-01', "Insert Message Here"),
+('000012', '000007', '000003', '2023-01-01', "Insert Message Here"),
+('000013', '000007', '000004', '2023-01-01', "Insert Message Here"),
+('000014', '000007', '000005', '2023-01-01', "Insert Message Here"),
+('000015', '000007', '000006', '2023-01-01', "Insert Message Here"),
+('000016', '000007', '000010', '2023-01-01', "Insert Message Here");
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
