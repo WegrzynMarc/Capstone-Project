@@ -19,6 +19,8 @@ router.get('/', function (ctx) {
     return ctx.body = 'What is up?';
 });
 
+
+
 /*
 |--------------------------------------------------------------------------
 | login router
@@ -36,12 +38,13 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:user_firstName/:user_lastName', LoginController.authorizeUser, (err) => console.log("emps_services_routes.js: login-route error:", err));
 
+//ClockIn router configuration.
 
 const ClockInController = require('../app/Controllers/ClockInController.js');
 const clockInRouter = require('koa-router')({
     prefix: '/clock-in'
 });
-clockInRouter.get('/:employeeID', ClockInController.clockIn, (err) => {
+clockInRouter.post('/:employeeID', ClockInController.clockIn, (err) => {
     console.log("clockIn-route error:", err);
 });
 

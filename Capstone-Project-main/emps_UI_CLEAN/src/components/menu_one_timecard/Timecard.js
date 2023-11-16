@@ -1,38 +1,25 @@
-import React, { Fragment, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import API from '../../API_Interface/API_Interface';
 
 
 
 export default function Timecard(props) {
     const [isClockedIn, setIsClockedIn] = useState(false);
     const [employeeID, setEmployeeID] = useState(0);
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
 
     const handleClockIn = async () => {
         setIsClockedIn(true);
-        console.log(employeeID)
 
-        try {
-            const endpoint = `http://localhost:3000/:employeeID`;
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        const api = new API();
 
-            if (!response.ok) {
-                throw new Error('Failed to clock in');
-            }
-
-            const data = await response.json();
-
-            if (data.status !== 'OK') {
-                setIsClockedIn(false);
-            }
-        } catch (error) {
-            console.error('Error during clock in:', error);
+        const response = await api.clockIn(employeeID);
+        if (response.status !== 'OK') {
+            console.error('Clock in failed!!:', response.error);
             setIsClockedIn(false);
         }
     };
@@ -42,6 +29,30 @@ export default function Timecard(props) {
         setIsClockedIn(false);
 
     };
+
+    // useEffect(() => {
+    //
+    //     if( ! isClockedIn )
+    //         return;
+    //
+    //     const api = new API();
+    //     async function getUserInfo() {
+    //         api.getUserInfo(userFirstName, userLastName)
+    //             .then( userInfo => {
+    //                 console.log(`api returns user info and it is: ${JSON.stringify(userFirstName)} , ${JSON.stringify(userLastName)}, ${JSON.stringify(userInfo)}`)
+    //                 const employeeID = userInfo.employeeID;
+    //                 console.log(`Employee ID is ${employeeID}`)
+    //                // const permLevel = userInfo.permLevel;
+    //                 //TODO: hook in permissionLevel into the login screen
+    //                 //This 1 is a temporary value
+    //
+    //                 setEmployeeID(employeeID);
+    //
+    //             });
+    //     }
+    //
+    //     getUserInfo();
+    // }, [isClockedIn, employeeID, userFirstName, userLastName]);
 
 
 

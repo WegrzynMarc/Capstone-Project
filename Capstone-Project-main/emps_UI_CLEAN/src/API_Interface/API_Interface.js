@@ -34,6 +34,15 @@ export default class APIInterface {
                  }));
     }
 
+    async clockIn(employeeID) {
+        return axiosAgent.post(`clock-in/${employeeID}`)
+            .then(response => response.data)
+            .catch(error => {
+                console.error("Clock in error:", error);
+                return { status: "Failed", error };
+            });
+    }
+
 
     //Reference API Calls for quick reference
     //Do not impliment the commented out lines, these are only for reference and not production
