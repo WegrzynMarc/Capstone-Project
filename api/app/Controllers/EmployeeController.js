@@ -34,9 +34,9 @@ const employeeWithID = (ctx) => {
         const query = `
                        SELECT *
                         FROM 
-                            employee
+                            employee e
                         WHERE
-                            employeeID = ?
+                            e.employeeID = ?
                         ORDER BY employeeID
                         `;
         dbConnection.query({
@@ -92,8 +92,148 @@ const hireEmployee = async (ctx) => {
     });
 }
 
+const updateTotalHours = (ctx) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+                        UPDATE employee
+                        SET hoursWTD =?
+                        WHERE employeeID = ?`;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.hoursWTD, ctx.params.employeeID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in EmployeeController::updateTotalHours", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in updateTotalHours.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
+const updatePaidHours = (ctx) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+                        UPDATE employee
+                        SET paid_hours =?
+                        WHERE employeeID = ?`;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.paid_hours, ctx.params.employeeID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in EmployeeController::updatePaidHours", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in updatePaidHours.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
+const updateUnpaidHours = (ctx) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+                        UPDATE employee
+                        SET unpaid_hours =?
+                        WHERE employeeID = ?`;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.unpaid_hours, ctx.params.employeeID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in EmployeeController::updateUnpaidHours", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in updateUnpaidHours.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
+const updateManager = (ctx) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+                        UPDATE employee
+                        SET isManager =?
+                        WHERE employeeID = ?`;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.isManager, ctx.params.employeeID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in EmployeeController::updateManager", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in updateManager.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
+const updateAddress = (ctx) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+                        UPDATE employee
+                        SET employeeAddress =?
+                        WHERE employeeID = ?`;
+        dbConnection.query({
+            sql: query,
+            values: [ctx.params.employeeAddress, ctx.params.employeeID]
+        }, (error, tuples) => {
+            if (error) {
+                console.log("Connection error in EmployeeController::updateAddress", error);
+                return reject(error);
+            }
+            ctx.body = tuples;
+            ctx.status = 200;
+            return resolve();
+        });
+    }).catch(err => {
+        console.log("Database connection error in updateAddress.", err);
+        // The UI side will have to look for the value of status and
+        // if it is not 200, act appropriately.
+        ctx.body = [];
+        ctx.status = 500;
+    });
+}
+
 module.exports = {
     allEmployees,
     employeeWithID,
-    hireEmployee
+    hireEmployee,
+    updateTotalHours,
+    updatePaidHours,
+    updateUnpaidHours,
+    updateManager,
+    updateAddress
 }
