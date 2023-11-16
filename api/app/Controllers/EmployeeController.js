@@ -96,7 +96,7 @@ const updateTotalHours = (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                         UPDATE employee
-                        SET hoursWTD =?
+                        SET hoursWTD = ?
                         WHERE employeeID = ?`;
         dbConnection.query({
             sql: query,
@@ -123,7 +123,7 @@ const updatePaidHours = (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                         UPDATE employee
-                        SET paid_hours =?
+                        SET paid_hours = ?
                         WHERE employeeID = ?`;
         dbConnection.query({
             sql: query,
@@ -150,7 +150,7 @@ const updateUnpaidHours = (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                         UPDATE employee
-                        SET unpaid_hours =?
+                        SET unpaid_hours = ?
                         WHERE employeeID = ?`;
         dbConnection.query({
             sql: query,
@@ -177,7 +177,7 @@ const updateManager = (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                         UPDATE employee
-                        SET isManager =?
+                        SET isManager = ?
                         WHERE employeeID = ?`;
         dbConnection.query({
             sql: query,
@@ -204,7 +204,7 @@ const updateAddress = (ctx) => {
     return new Promise((resolve, reject) => {
         const query = `
                         UPDATE employee
-                        SET employeeAddress =?
+                        SET employeeAddress = ?
                         WHERE employeeID = ?`;
         dbConnection.query({
             sql: query,
