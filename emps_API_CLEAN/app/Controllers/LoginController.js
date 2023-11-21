@@ -14,12 +14,16 @@ const authorizeUser = async (ctx) => {
 	    // with the format of email addresses. 
             console.log(ctx.params.user_firstName);
             console.log(ctx.params.user_lastName);
+            console.log(`Hello? ${ctx.params.user_firstName} ${ctx.params.user_lastName}`);
+
+
 	    
             let query = "SELECT employeeID, isManager FROM employee WHERE firstName = ? AND lastName = ?";
             dbConnection.query(
                 {
                     sql: query,
                     values: [ctx.params.user_firstName, ctx.params.user_lastName]
+
                 }, (error, tuples) => {
                     if (error) {
                         console.log("Query error.", error);

@@ -30,13 +30,13 @@ function setAccessToken(ctx, user) {
 
         // Don't allow the access_token to be sent if not going over
         // an encrypted connection
-//            secure: process.env.APP_ENV !== 'local',
+//            secure: process..env.APP_ENV !== 'local',
 
         // Expire the cookie after a short period, slightly before the
         // access_token is expired
         expires: new Date(exp_date),
 
-//            domain: process.env.APP_DOMAIN
+//            domain: process..env.APP_DOMAIN
     });
 
 }

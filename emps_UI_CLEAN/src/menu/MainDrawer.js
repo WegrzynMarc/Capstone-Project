@@ -139,7 +139,7 @@ const ContainerListItems = (props) => {
 };
 
 const getpresentationComponents = (permissionLevel) => {
-    
+
     switch(permissionLevel) {
         case 0: {
             const componentEmployee = [...presentationComponentsEmployee()]
@@ -150,17 +150,17 @@ const getpresentationComponents = (permissionLevel) => {
             return componentManager
         }
         default: {
-           return {
+            return {
                 title: null,
-                component: null     
+                component: null
             }
         }
     }
 };
 
-const findSelectedComponent = (selectedItem) => {
-    const component = [...presentationComponentsManager(), ...presentationComponentsEmployee(),
-                        ...containerComponents()].filter(comp => comp.title === selectedItem);
+const findSelectedComponent = (selectedItem, userID, user) => {
+    const component = [...presentationComponentsManager(userID, user), ...presentationComponentsEmployee(userID, user),
+        ...containerComponents()].filter(comp => comp.title === selectedItem);
     if(component.length === 1)
         return component[0];
 
@@ -174,7 +174,7 @@ const findSelectedComponent = (selectedItem) => {
 export default function MainDrawer({title, user, userID, logoutAction, permissionLevel}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const [selectedItem, setSelectedItem] = useState('Summary');
+    const [selectedItem, setSelectedItem] = useState('Time Card');
 
     console.log('in MainDrawer');
 
@@ -219,11 +219,11 @@ export default function MainDrawer({title, user, userID, logoutAction, permissio
                                            menuItemTitles={getpresentationComponents(permissionLevel).map(comp => comp.title)}
                     />
                 </List>
-               
+
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                {findSelectedComponent(selectedItem).component}
+                {findSelectedComponent(selectedItem, userID, user).component}
             </Main>
         </Box>
     );

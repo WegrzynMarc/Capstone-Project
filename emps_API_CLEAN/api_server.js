@@ -3,7 +3,7 @@ const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 const http = require('http');
 
-// Load environment variables (or .env if local environment)
+// Load environment variables (or ..env if local environment)
 require('dotenv').config();
 app.use(bodyParser());
 require('./app/Middleware/CORS.js')(app);

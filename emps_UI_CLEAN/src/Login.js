@@ -55,7 +55,7 @@ export default function Login({setUser, setPerms, setUserID, setName}) {
         async function getUserInfo() {
             api.getUserInfo(userFirstName, userLastName)
                 .then( userInfo => {
-                console.log(`api returns user info and it is: ${JSON.stringify(userFirstName)} , ${JSON.stringify(userLastName)}`);
+                console.log(`api returns user info and it is: ${JSON.stringify(userFirstName)} , ${JSON.stringify(userLastName)}, ${JSON.stringify(userInfo)}`)
                 const employeeID = userInfo.employeeID;
                 const permLevel = userInfo.permLevel;
                 //TODO: hook in permissionLevel into the login screen

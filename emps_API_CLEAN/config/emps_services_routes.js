@@ -19,6 +19,8 @@ router.get('/', function (ctx) {
     return ctx.body = 'What is up?';
 });
 
+
+
 /*
 |--------------------------------------------------------------------------
 | login router
@@ -35,6 +37,30 @@ const loginRouter = require('koa-router')({
     prefix: '/login'
 });
 loginRouter.get('/:user_firstName/:user_lastName', LoginController.authorizeUser, (err) => console.log("emps_services_routes.js: login-route error:", err));
+
+//ClockIn router configuration.
+
+const ClockInController = require('../app/Controllers/ClockInController.js');
+const clockInRouter = require('koa-router')({
+    prefix: '/clock-in'
+});
+
+clockInRouter.post('/', ClockInController.clockIn, (err) => {
+    console.log("clockIn-route error:", err);
+});
+
+const clockOutRouter = require('koa-router')({
+    prefix: '/clock-out'
+});
+
+clockOutRouter.post('/', ClockInController.clockOut, (err) => {
+    console.log("clockOut-route error:", err);
+
+});
+
+
+//routesRouter.post('/update-route-accounts', Authorize('admin'), RoutesController.updateRouteAccounts);
+
 
 // Routes router configuration.
 
@@ -55,10 +81,13 @@ routesRouter.get('/:routeID/', Authorize('admin'), RoutesController.routeWithRou
 router.use(
     '',
     loginRouter.routes(),
+    clockInRouter.routes(),
+    clockOutRouter.routes()
     //routesRouter.routes()
 );
 
 module.exports = function (app) {
     app.use(router.routes());
     app.use(router.allowedMethods());
+
 };

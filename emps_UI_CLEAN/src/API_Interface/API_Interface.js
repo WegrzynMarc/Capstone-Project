@@ -34,6 +34,26 @@ export default class APIInterface {
                  }));
     }
 
+    async clockIn(employeeID) {
+        console.log(`Clocking in employee!! ${employeeID}`)
+        return axiosAgent.post(`clock-in`, {  employeeID })
+            .then(response => response.data)
+            .catch(error => {
+                console.error("Clock in error:", error);
+                return { status: "Failed", error: error.response.data };
+            });
+    }
+
+    async clockOut(employeeID) {
+        console.log(`Clocking out employee!! ${employeeID}`)
+        return axiosAgent.post(`clock-out`, {  employeeID })
+            .then(response => response.data)
+            .catch(error => {
+                console.error("Clock out error:", error);
+                return { status: "Failed", error: error.response.data };
+            });
+    }
+
 
     //Reference API Calls for quick reference
     //Do not impliment the commented out lines, these are only for reference and not production

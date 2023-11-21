@@ -5,11 +5,14 @@ import ScheduleBuilder from "../components/menu_four_Schedule_Builder/ScheduleBu
 import TimecardApproval from "../components/menu_five_Timecard_Approval/TimecardApproval";
 import UpdateHours from "../components/menu_six_Update_Hours/UpdateHours";
 
-const presentationComponentsEmployee = (props) => {
+const presentationComponentsEmployee = (userID, user) => {
+    console.log(`Presentation Comps ${userID}`);
     return [
         {
             title: 'Time card',
-            component: <Timecard/>
+            component: <Timecard
+                employeeID = {userID}
+                />
         },
         {
             title: 'Work Schedule',
@@ -17,12 +20,14 @@ const presentationComponentsEmployee = (props) => {
         },
         {
             title: 'Messages',
-            component: <Message/>
+            component: <Message
+                employeeID = {userID}
+                employeeName = {user}/>
         },
     ];
 };
 
-const presentationComponentsManager = (props) => {
+const presentationComponentsManager = (userID, user) => {
     return [
         {
             title: 'Schedule Builder',
@@ -30,7 +35,9 @@ const presentationComponentsManager = (props) => {
         },
         {
             title: 'Time card approval',
-            component: <TimecardApproval/>
+            component: <TimecardApproval
+                employeeID = {userID}
+                employeeName = {user}/>
         },
         {
             title: 'Update Hours',
