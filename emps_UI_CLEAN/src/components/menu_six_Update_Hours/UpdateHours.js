@@ -7,7 +7,7 @@ import API from '../../API_Interface/API_Interface';
 
 export default function UpdateHours(props) {
     const employeeID = props.employeeID;
-    console.log(`Props! ${employeeID} ${hoursWTD}`);
+    console.log(`Props! ${employeeID}`);
     const [targetID, setTargetID] = useState ("");
     const [hoursChange, setHoursChange] = usestate (0.00);
     
