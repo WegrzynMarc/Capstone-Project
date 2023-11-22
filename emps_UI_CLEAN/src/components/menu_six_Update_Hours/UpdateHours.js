@@ -10,6 +10,14 @@ export default function UpdateHours(props) {
     console.log(`Props! ${employeeID}`);
     const [targetID, setTargetID] = useState ("");
     const [hoursChange, setHoursChange] = usestate (0.00);
+
+    const handleChangeTargetID = event => {
+        setTargetID(event.target.value);
+    };
+
+    const handleChangeHoursChange = event => {
+        setHoursChange(event.target.value);
+    };
     
     const handleAddHours = async () => {
         //Get Employee by ID entered into text box, get hours from that get and add input from second text box, try update hours with ID and result and return a message with either success or failure.
