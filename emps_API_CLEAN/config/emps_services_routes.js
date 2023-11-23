@@ -58,22 +58,16 @@ clockOutRouter.post('/', ClockInController.clockOut, (err) => {
 
 });
 
-
-//routesRouter.post('/update-route-accounts', Authorize('admin'), RoutesController.updateRouteAccounts);
-
-
-// Routes router configuration.
-
-/*
-const RoutesController = require('../app/Controllers/RoutesController.js');
-const routesRouter = require('koa-router')({
-    prefix: '/routes'
+const clockInStatusRouter = require('koa-router')({
+    prefix: '/status'
 });
 
-routesRouter.use(VerifyJWT);
-routesRouter.get('/all-routes', Authorize('admin'), RoutesController.allRoutes, err => console.log(`allRoutes ran into an error: ${err}`));
-routesRouter.get('/:routeID/', Authorize('admin'), RoutesController.routeWithRouteID);
-*/
+clockInStatusRouter.get('/:employeeID', ClockInController.getStatus, (err) => {
+    console.log("getStatus-route error:", err);
+});
+
+
+
 
 /**
  * Register all of the controllers into the default controller.
@@ -82,7 +76,9 @@ router.use(
     '',
     loginRouter.routes(),
     clockInRouter.routes(),
-    clockOutRouter.routes()
+    clockOutRouter.routes(),
+    clockInStatusRouter.routes()
+
     //routesRouter.routes()
 );
 

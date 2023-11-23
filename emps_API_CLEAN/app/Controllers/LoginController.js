@@ -12,9 +12,9 @@ const authorizeUser = async (ctx) => {
 	    // For example, if user ids are suppose to be email addresses,
 	    // you can at least make sure that user's input is consistent
 	    // with the format of email addresses. 
-            console.log(ctx.params.user_firstName);
-            console.log(ctx.params.user_lastName);
-            console.log(`Hello? ${ctx.params.user_firstName} ${ctx.params.user_lastName}`);
+        //     console.log(ctx.params.user_firstName);
+        //     console.log(ctx.params.user_lastName);
+        //     console.log(`Hello? ${ctx.params.user_firstName} ${ctx.params.user_lastName}`);
 
 
 	    

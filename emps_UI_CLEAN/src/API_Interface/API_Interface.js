@@ -54,6 +54,18 @@ export default class APIInterface {
             });
     }
 
+    async clockedInStatus(employeeID) {
+        console.log("Requesting status for employeeID in API_Interface:", employeeID);
+        try {
+            const response = await axiosAgent.get(`/status/${employeeID}`);
+            return response.data;
+        } catch (error) {
+            console.error("Fetch status error:", error);
+            return { status: "Failed", error: error.response.data };
+        }
+
+    }
+
 
     //Reference API Calls for quick reference
     //Do not impliment the commented out lines, these are only for reference and not production
