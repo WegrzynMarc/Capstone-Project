@@ -18,7 +18,6 @@
 --
 -- Table structure for table `employee`
 --
-
 DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -33,11 +32,14 @@ CREATE TABLE `employee` (
   `isSalaried` tinyint(1) DEFAULT NULL,
   `salary` decimal(13,2) DEFAULT NULL,
   `hourlyWage` decimal(5,2) DEFAULT NULL,
-  `hoursWTD` decimal(5,2) DEFAULT NULL,
-  `paid_hours` decimal(5,2) DEFAULT NULL,
-  `unpaid_hours` decimal(5,2) DEFAULT NULL,
+  `hoursWTD` decimal(10,2) DEFAULT 0.00,
+  `paid_hours` decimal(10,2) DEFAULT 0.00,
+  `unpaid_hours` decimal(10,2) DEFAULT 0.00,
   `isManager` tinyint(1) DEFAULT NULL,
-  `PTO` decimal(5,2) DEFAULT NULL,
+  `PTO` decimal(10,2) DEFAULT 0.00,
+  `clockedIn` tinyint(1) DEFAULT NULL,
+  `timeClockedIn` datetime DEFAULT NULL,
+  `timeClockedOut` datetime DEFAULT NULL,
   PRIMARY KEY (`employeeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -48,7 +50,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES ('1234567','John','Smith','1234 Main Street','15558675309','2022-01-01',NULL,0,NULL,23.00,22.50,11.25,11.25,0,25.00),('125456','Argyle','DeSilva','12 North St.','15553468056','2022-12-21',NULL,0,NULL,16.00,22.50,11.25,11.25,1,30.00),('234567','Beauford','Johnson','122 South Street.','15555342456','2022-03-11',NULL,1,900000.00,NULL,22.50,11.25,11.25,0,175.00),('263474','Brett','Lister','573 Chicken Ave.','15555555456','2022-03-21',NULL,1,100000.00,NULL,22.50,11.25,11.25,0,25.00),('425698','Esteban','Salamanca','427 West St.','15555551234','2021-02-22',NULL,0,NULL,33.00,22.50,11.25,11.25,1,25.00),('435478','Sam','Fisher','827 NSA St','15552535456','2022-01-01',NULL,1,70000.00,NULL,22.50,11.25,11.25,0,25.00),('435564','Nancy','Meyers','67 Left Blvd','15554635674','2022-10-11',NULL,1,78000.00,NULL,22.50,11.25,11.25,0,126.00),('4556789','Neil','Hector','12 North St.','15552558056','2022-11-01',NULL,0,NULL,36.00,22.50,11.25,11.25,1,30.00),('554666','Samantha','Tudor','1600 C Street','15552565674','2022-12-01',NULL,1,180000.00,NULL,22.50,11.25,11.25,0,126.00),('63274','Amber','Stone','2424 G Street','15552567856','2022-01-01',NULL,1,80000.00,NULL,22.50,11.25,11.25,0,11.00),('980445','Martin','Law','178 Law Drive.','15555315456','2022-03-21',NULL,1,100000.00,NULL,22.50,11.25,11.25,0,250.00);
+INSERT INTO `employee` VALUES ('1234567','John','Smith','1234 Main Street','15558675309','2022-01-01',NULL,0,NULL,23.00,0.00,0.00,0.49,0,25.00,0,'2023-11-22 22:15:50',NULL),('125456','Argyle','DeSilva','12 North St.','15553468056','2022-12-21',NULL,0,NULL,16.00,0.00,0.00,0.00,1,30.00,0,NULL,NULL),('234567','Beauford','Johnson','122 South Street.','15555342456','2022-03-11',NULL,1,900000.00,NULL,0.00,0.00,0.00,0,175.00,0,NULL,NULL),('263474','Brett','Lister','573 Chicken Ave.','15555555456','2022-03-21',NULL,1,100000.00,NULL,0.00,0.00,0.00,0,25.00,0,NULL,NULL),('425698','Esteban','Salamanca','427 West St.','15555551234','2021-02-22',NULL,0,NULL,33.00,0.00,0.00,0.00,1,25.00,0,NULL,NULL),('435478','Sam','Fisher','827 NSA St','15552535456','2022-01-01',NULL,1,70000.00,NULL,0.00,0.00,0.00,0,25.00,0,NULL,NULL),('435564','Nancy','Meyers','67 Left Blvd','15554635674','2022-10-11',NULL,1,78000.00,NULL,0.00,0.00,0.00,0,126.00,0,NULL,NULL),('4556789','Neil','Hector','12 North St.','15552558056','2022-11-01',NULL,0,NULL,36.00,0.00,0.00,0.00,1,30.00,0,NULL,NULL),('554666','Samantha','Tudor','1600 C Street','15552565674','2022-12-01',NULL,1,180000.00,NULL,0.00,0.00,0.00,0,126.00,0,NULL,NULL),('63274','Amber','Stone','2424 G Street','15552567856','2022-01-01',NULL,1,80000.00,NULL,0.00,0.00,0.00,0,11.00,0,NULL,NULL),('980445','Martin','Law','178 Law Drive.','15555315456','2022-03-21',NULL,1,100000.00,NULL,0.00,0.00,0.00,0,250.00,0,'2023-11-22 22:16:16',NULL);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
