@@ -1,4 +1,8 @@
 const dbConnection = require('../../database/mySQLconnect');
+const setAccessToken = require('../../config/setAccessToken');
+
+
+require('dotenv').config();
 
 const allMessages = async (ctx) => {
     console.log('messages all messages called.');
