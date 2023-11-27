@@ -50,7 +50,9 @@ const messageWithEmployeeID = (ctx) => {
                             senderID, 
                             receiverID,
                             date,
-                            message 
+                            message,
+                            messageID,
+                            hours 
                         FROM 
                             employee E, 
                             messages M 
@@ -82,22 +84,24 @@ const messageWithEmployeeID = (ctx) => {
         });
 }
 
-const messagesSent = (ctx) => {
+const messagesUpdate = (ctx) => {
         return new Promise((resolve, reject) => {
             const query = `
-                       SELECT *
-                        FROM 
-                            messages
-                        WHERE 
-                            senderID = ?
-                        ORDER BY messageID
-                        `;
+                    UPDATE 
+                       messages 
+                    SET 
+                       senderID = ?,
+                       message = ?,
+                       hours = 0
+                    WHERE  
+                        messageID = ?
+                    `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.senderID]
+                values: [ctx.params.employeeID, ctx.params.message, ctx.params.messageID]
             }, (error, tuples) => {
                 if (error) {
-                    console.log("Connection error in MessageController::messagesSent", error);
+                    console.log("Connection error in MessageController::messagesUpdate", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
@@ -107,7 +111,7 @@ const messagesSent = (ctx) => {
                 return resolve();
             });
         }).catch(err => {
-            console.log("Database connection error in messagesSent.", err);
+            console.log("Database connection error in messagesUpdate.", err);
             // The UI side will have to look for the value of status and
             // if it is not 200, act appropriately.
             ctx.body = [];
@@ -183,6 +187,6 @@ const addMessage = (ctx) => {
 module.exports = {
       allMessages,
       messageWithEmployeeID,
-      messagesSent,
+      messagesUpdate,
       messagesReceived
 }

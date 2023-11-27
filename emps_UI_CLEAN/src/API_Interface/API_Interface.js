@@ -38,6 +38,10 @@ export default class APIInterface {
         return axiosAgent.get(`message/${employeeID}`);
     }
 
+    async messagesUpdate(employeeID, messageID, message) {
+        axiosAgent.get(`message/${employeeID}/${messageID}/${message}`);
+    }
+
 
 
     //Reference API Calls for quick reference

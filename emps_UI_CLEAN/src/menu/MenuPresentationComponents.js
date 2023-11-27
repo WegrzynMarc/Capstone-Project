@@ -9,7 +9,8 @@ const presentationComponentsEmployee = (userID, user) => {
     return [
         {
             title: 'Time card',
-            component: <Timecard/>
+            component: <Timecard
+                    employeeID = {userID}/>
         },
         {
             title: 'Work Schedule',

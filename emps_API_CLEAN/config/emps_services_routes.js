@@ -47,7 +47,7 @@ const messageRouter = require('koa-router')({
     prefix: '/message'
 })
 messageRouter.get('/:employeeID', MessageController.messageWithEmployeeID, (err) => console.log("emps_services_routes.js: message-route error:", err))
-
+messageRouter.get('/:employeeID/:messageID/:message', MessageController.messagesUpdate, (err) => console.log("emps_services_routes.js: message-route error:", err))
 // Routes router configuration.
 
 /*

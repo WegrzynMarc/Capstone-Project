@@ -54,29 +54,29 @@ function dataParser(message, employeeID, employeeName) {
     //Data returned should always be an even number, so this
     //  for loop will extract the names for display
     for (let i = 0; i < message.length; i += 2) {
-        let nameOne = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-        let nameTwo = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+        let nameOne = message[i].firstName + ` ` + message[i].lastName;
+        let nameTwo = message[i + 1].firstName + ` ` + message[i + 1].lastName;
         //console.log(`${message[i].senderID} | ${message[i].receiverID} | ${employeeID}`);
         if (nameOne === employeeName) {  
             //console.log("Match Found");
             if (message[i].senderID === employeeID) {
-                senderName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-                receiverName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+                senderName = message[i].firstName + ` ` + message[i].lastName;
+                receiverName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
             }
             else {
-                senderName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
-                receiverName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
+                senderName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverName = message[i].firstName + ` ` + message[i].lastName;
             }
         }
         else if (nameTwo === employeeName) {
             //console.log("Match Found");
             if (message[i + 1].senderID === employeeID) {
-                senderName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
-                receiverName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
+                senderName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverName = message[i].firstName + ` ` + message[i].lastName;
             }
             else {
-                senderName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-                receiverName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+                senderName = message[i].firstName + ` ` + message[i].lastName;
+                receiverName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
             }
         }
 

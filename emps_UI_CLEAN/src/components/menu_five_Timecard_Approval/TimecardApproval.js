@@ -16,6 +16,8 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'; 
+
 
 const messageTableAttributes = [
     
@@ -34,7 +36,41 @@ const messageTableAttributes = [
         attributeDBName: 'date',
         align: 'left'
     },
+    {
+        title: 'Hours under Review',
+        attributeDBName: 'hours',
+        align: 'left'
+    },
+    {   
+        title: 'Approve',
+        alight: 'left'
+    },
+    {
+        title: 'Deny',
+        alight: 'left'
+    }
 ];
+
+
+let dummy = [];
+const MessageInformation = [
+    {
+        attributeName: 'receiverName'
+    },
+    {
+        attributeName: 'receiverID'
+    },
+    {
+        attributeName: 'date'
+    },
+    {
+        attributeName: 'messageID'
+    },
+    {
+        attributeName: 'hours'
+    }
+
+]
 
 const messageRouteTableAttributes = [
     {
@@ -44,39 +80,106 @@ const messageRouteTableAttributes = [
     },
 ];
 
+function HandleApprove(employeeID, messageID, setmessages, employeeName) {
+    //Perform a search to find the correct entry
+    //The assumption is that all senderID's are 000000
+    let messageNumber = 0;
+    for (; messageNumber < dummy.length; messageNumber++) {
+        if(dummy[messageNumber].messageID === messageID) {
+            //Target location has been found
+            break;
+        }
+    }
+
+    const api = new API();
+    const message = "This is a new message";
+
+    console.log(`EmpID: ${employeeID}, mesID: ${dummy[messageNumber].messageID}, message: ${message}`);
+
+    async function updatemessages() {
+            await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, message);
+            //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+    }
+
+    updatemessages();
+
+    async function getmessages() {
+        const routesJSONString = await api.messagesWithEmployeeID('000000');
+        //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+        setmessages(dataParser(routesJSONString.data, employeeID, employeeName));
+    }
+
+    getmessages();
+};
+
+function HandleDeny(employeeID, messageID, setmessages, employeeName) {
+    //Perform a search to find the correct entry
+    //The assumption is that all senderID's are 000000
+    let messageNumber = 0;
+    for (; messageNumber < dummy.length; messageNumber++) {
+        if(dummy[messageNumber].messageID === messageID) {
+            //Target location has been found
+            break;
+        }
+    }
+
+    const api = new API();
+    const message = "";
+
+    async function updatemessages() {
+        await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, message);
+        //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+    }
+
+    updatemessages();
+
+    async function getmessages() {
+        const routesJSONString = await api.messagesWithEmployeeID('000000');
+        //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+        setmessages(dataParser(routesJSONString.data, employeeID, employeeName));
+    }
+
+    getmessages();
+
+};
 
 function dataParser(message, employeeID, employeeName) {
     let arrayToReturn = [];
     let arraySubSection = [];
     let senderName = "";
     let receiverName = "";
+    let receiverID = '';
 
     //Data returned should always be an even number, so this
     //  for loop will extract the names for display
     for (let i = 0; i < message.length; i += 2) {
-        let nameOne = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-        let nameTwo = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+        let nameOne = message[i].firstName + ` ` + message[i].lastName;
+        let nameTwo = message[i + 1].firstName + ` ` + message[i + 1].lastName;
         //console.log(`${message[i].senderID} | ${message[i].receiverID} | ${employeeID}`);
         if (nameOne === employeeName || nameOne === 'System Message') {  
             //console.log("Match Found");
             if (message[i].senderID === employeeID || message[i].senderID === '000000') {
-                senderName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-                receiverName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+                senderName = message[i].firstName + ` ` + message[i].lastName;
+                receiverName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverID = message[i + 1].receiverID;
             }
             else {
-                senderName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
-                receiverName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
+                senderName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverName = message[i].firstName + ` ` + message[i].lastName;
+                receiverID = message[i].receiverID;
             }
         }
         else if (nameTwo === employeeName || nameTwo === 'System Message') {
             //console.log("Match Found");
             if (message[i + 1].senderID === employeeID || message[i].senderID === '000000') {
-                senderName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
-                receiverName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
+                senderName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverName = message[i].firstName + ` ` + message[i].lastName;
+                receiverID = message[i].receiverID;
             }
             else {
-                senderName = `${message[i].firstName}` + ` ` + `${message[i].lastName}`;
-                receiverName = `${message[i + 1].firstName}` + ` ` + `${message[i + 1].lastName}`;
+                senderName = message[i].firstName + ` ` + message[i].lastName;
+                receiverName = message[i + 1].firstName + ` ` + message[i + 1].lastName;
+                receiverID = message[i + 1].receiverID;
             }
         }
 
@@ -86,9 +189,20 @@ function dataParser(message, employeeID, employeeName) {
                 senderName: senderName,
                 receiverName: receiverName,
                 date: message[i].date,
-                message: message[i].message
+                message: message[i].message,
+                messageID: message[i].messageID,
+                hours: message[i].hours
             }
             arrayToReturn.push(arraySubSection);
+
+            arraySubSection = {
+                receiverID: receiverID,
+                receiverName: receiverName,
+                date: message[i].date,
+                messageID: message[i].messageID,
+                hours: message[i].hours
+            }
+            dummy.push(arraySubSection)
         }   
 
     }
@@ -140,6 +254,22 @@ export default function MessageTable(props) {
                 <TableCell align="left">{routeObject.senderName}</TableCell>
                 <TableCell align="left">{routeObject.receiverName}</TableCell>
                 <TableCell align="left">{routeObject.date}</TableCell>
+                <TableCell align="left">{routeObject.hours}</TableCell>
+                <TableCell align="left">
+                    <Button variant="contained"
+                        title="Approve"
+                        onClick={() => HandleApprove(employeeID, routeObject.messageID, setmessages, employeeName)}> 
+                            Approve
+                    </Button>
+                </TableCell>
+
+                <TableCell align="left">
+                    <Button variant="contained"
+                        title="Deny"
+                        onClick={() => HandleDeny(routeObject.receiverName, routeObject.date)}>
+                            Deny
+                    </Button>
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -182,7 +312,7 @@ export default function MessageTable(props) {
                                     messageTableAttributes.map((attr, idx) =>
                                         <TableCell  key={idx}
                                                     align={attr.align}>
-                                            {attr.title}
+                                                    {attr.title}
                                         </TableCell>)
                                 }
                             </TableRow>
@@ -193,6 +323,9 @@ export default function MessageTable(props) {
                                     <TRow routeObject={message} key={idx}/>
                                 ))
                             }
+
+                            
+
                         </TableBody>
                     </Table>
                 </TableContainer>
