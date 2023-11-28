@@ -36,6 +36,28 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:user_firstName/:user_lastName', LoginController.authorizeUser, (err) => console.log("emps_services_routes.js: login-route error:", err));
 
+const EmployeeController = require('../app/Controllers/EmployeeController.js');
+const employeeRouter = require('koa-router')({
+    prefix: '/employee'
+})
+employeeRouter.get('/:employeeID', EmployeeController.employeeWithID, (err) => console.log("emps_services_routes.js: employee-route error:", err))
+employeeRouter.get('/:employeeID/status', EmployeeController.getStatus, (err) => console.log("emps_services_routes.js: employee-route error:", err))
+employeeRouter.put('/:employeeID/clock-in', EmployeeController.clockIn, (err) => console.log("emps_services_routes.js: employee-route error:", err))
+employeeRouter.put('/:employeeID/clock-out', EmployeeController.clockOut, (err) => console.log("emps_services_routes.js: employee-route error:", err))
+employeeRouter.put('/:newHours/update-hours/:employeeID', EmployeeController.updateTotalHours, (err) => console.log("emps_services_routes.js: employee-route error:", err))
+
+const MessageController = require ('../app/Controllers/MessageController.js');
+const messageRouter = require('koa-router')({
+    prefix: '/message'
+})
+messageRouter.get('/:employeeID', MessageController.messageWithEmployeeID, (err) => console.log("emps_services_routes.js: message-route error:", err))
+
+const ScheduleController = require('../app/Controllers/ScheduleController.js');
+const scheduleRouter = require('koa-router')({
+    prefix: '/schedule'
+})
+scheduleRouter.get('/:employeeID', ScheduleController.employeeSchedule, (err) => console.log("emps_services_routes.js: schedule-route error:", err))
+
 // Routes router configuration.
 
 /*
@@ -55,6 +77,34 @@ routesRouter.get('/:routeID/', Authorize('admin'), RoutesController.routeWithRou
 router.use(
     '',
     loginRouter.routes(),
+    employeeRouter.routes(),
+    messageRouter.routes(),
+    scheduleRouter.routes()
+    //routesRouter.routes()
+);
+
+// Routes router configuration.
+
+/*
+const RoutesController = require('../app/Controllers/RoutesController.js');
+const routesRouter = require('koa-router')({
+    prefix: '/routes'
+});
+
+routesRouter.use(VerifyJWT);
+routesRouter.get('/all-routes', Authorize('admin'), RoutesController.allRoutes, err => console.log(`allRoutes ran into an error: ${err}`));
+routesRouter.get('/:routeID/', Authorize('admin'), RoutesController.routeWithRouteID);
+*/
+
+/**
+ * Register all of the controllers into the default controller.
+ */
+router.use(
+    '',
+    loginRouter.routes(),
+    employeeRouter.routes(),
+    messageRouter.routes(),
+    scheduleRouter.routes()
     //routesRouter.routes()
 );
 
