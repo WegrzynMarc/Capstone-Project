@@ -212,5 +212,6 @@ module.exports = {
       messageWithMessageID,
       messageWithEmployeeID,
       messagesSent,
-      messagesReceived
+      messagesReceived,
+      addMessage
 }
