@@ -182,13 +182,13 @@ const addMessage = (ctx) {
                        INSERT 
                        INTO 
                        messages 
-                       (messageID, senderID, receiverID, message) 
+                       (messageID, senderID, receiverID, date, hours, message) 
                        VALUES 
-                       (?, ?, ?, ?)
+                       (?, ?, ?, ?, ?, ?)
                        `;
         dbConnection.query({
             sql: query,
-            values: [ctx.params.messageID, ctx.params.senderID, ctx.params.receiverID, ctx.params.message]
+            values: [ctx.params.messageID, ctx.params.senderID, ctx.params.receiverID, ctx.params.date, ctx.params.hours, ctx.params.message]
         }, (error, tuples) => {
             if (error) {
                 console.log("Connection error in MessageController::addMessage", error);
