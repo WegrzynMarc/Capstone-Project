@@ -66,6 +66,49 @@ const messageWithMessageID = (ctx) => {
         });
 }
 
+const messageWithEmployeeID = (ctx) => {
+        return new Promise((resolve, reject) => {
+           const query = `
+                        SELECT 
+                            firstName, 
+                            lastName, 
+                            senderID, 
+                            receiverID,
+                            date,
+                            message,
+                            messageID,
+                            hours 
+                        FROM 
+                            employee E, 
+                            messages M 
+                        WHERE 
+                            (E.employeeID = M.senderID OR E.employeeID = ReceiverID) 
+                        AND
+                            (? = M.senderID OR ? = M.receiverID)
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.employeeID, ctx.params.employeeID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in MessageController::messageWithMessageID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => {
+            console.log("Database connection error in messageWithMessageID.", err);
+            // The UI side will have to look for the value of status and
+            // if it is not 200, act appropriately.
+            ctx.body = [];
+            ctx.status = 500;
+        });
+}
+
 const messagesSent = (ctx) => {
         return new Promise((resolve, reject) => {
             const query = `
@@ -167,6 +210,7 @@ const addMessage = (ctx) {
 module.exports = {
       allMessages,
       messageWithMessageID,
+      messageWithEmployeeID,
       messagesSent,
       messagesReceived
 }
