@@ -74,6 +74,16 @@ export default class APIInterface {
         axiosAgent.get(`message/${employeeID}/${messageID}/${message}`);
     }
 
+    async employeeWithID(employeeID) {
+        console.log(`Finding information for ${employeeID}`);
+        return axiosAgent.get(`employee/${employeeID}`);
+    }
+
+    async updateTotalHours(hoursWTD, employeeID) {
+        console.log(`${employeeID} hours now ${hoursWTD}`);
+        return axiosAgent.put(`employee/${hoursWTD}/update-hours/${employeeID}`);
+    }
+
 
     //Reference API Calls for quick reference
     //Do not impliment the commented out lines, these are only for reference and not production
