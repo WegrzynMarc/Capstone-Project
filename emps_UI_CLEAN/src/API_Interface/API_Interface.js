@@ -81,7 +81,7 @@ export default class APIInterface {
 
     async updateTotalHours(hoursWTD, employeeID) {
         console.log(`${employeeID} hours now ${hoursWTD}`);
-        axiosAgent.put(`employee/${hoursWTD}/update-hours/${employeeID}`);
+        return axiosAgent.put(`employee/${hoursWTD}/update-hours/${employeeID}`);
     }
 
 
