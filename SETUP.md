@@ -2,6 +2,7 @@ How to set everything up:
 
 Step 1:
 Download emps_UI_CLEAN, employee_payroll.sql and emps_API_CLEAN
+Inside emps_API_CLEAN, renamde dotenv to .env
 
 Step 2:
 Using a software like VSCode, open the emps_UI_CLEAN folder and do npm install.
