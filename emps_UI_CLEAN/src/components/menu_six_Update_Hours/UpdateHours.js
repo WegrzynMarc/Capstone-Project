@@ -7,10 +7,11 @@ import API from '../../API_Interface/API_Interface';
 
 export default function UpdateHours(props) {
     const employeeID = props.employeeID;
-    const [currentMessage, setMessage] = useState ("Update Employee Hours");
-    const [secondaryMessage, setSecondaryMessage] = useState ("");
+    const [currentMessage, setMessage] = useState ("");
     const [targetID, setTargetID] = useState ("");
     const [changeHours, setChangeHours] = useState (0.00);
+
+    console.log(employeeID);
     
     const api = new API();
 
@@ -30,7 +31,7 @@ export default function UpdateHours(props) {
         }
         else {
             await api.updateTotalHours(changeHours, targetID);
-            setSecondaryMessage("Hours have been added");
+            setMessage("Hours have been added");
         }
         setTargetID('');
         setChangeHours(0);
@@ -48,10 +49,10 @@ export default function UpdateHours(props) {
             let response = await api.employeeUnpaidWithID(targetID);
             if (response.data[0].unpaid_hours < 0) {
                 await api.setTotalHours(0, targetID);
-                setSecondaryMessage("Removed hours exceeded worked hour, hours have been set to 0");
+                setMessage("Removed hours exceeded worked hours, hours have been set to 0");
             }
             else {
-                setSecondaryMessage("Hours have been removed");
+                setMessage("Hours have been removed");
             }
             setTargetID('');
             setChangeHours(0);
@@ -62,13 +63,7 @@ export default function UpdateHours(props) {
         <Fragment>
             <Box display="flex" justifyContent="center">
                 <Typography component="div" variant='h3'>
-                    {currentMessage}
-                </Typography>
-            </Box>
-
-            <Box display="flex" justifyContent="center">
-                <Typography component="div" variant='h4'>
-                    {secondaryMessage}
+                    Update Employee Hours
                 </Typography>
             </Box>
 
@@ -106,6 +101,12 @@ export default function UpdateHours(props) {
                 >
                     RMV
                 </Button>
+            </Box>
+
+            <Box display="flex" justifyContent="center" mt={2}>
+                <Typography component="div" variant='h6'>
+                    {currentMessage}
+                </Typography>
             </Box>
         </Fragment>
     )
