@@ -26,23 +26,41 @@ export default function UpdateHours(props) {
     const handleAddHours = async () => {
         //Get Employee by ID entered into text box, get hours from that get and add input from second text box, try update hours with ID and result and return a message with either success or failure.
         console.log(`Attempting to add ${changeHours} hours from ${targetID}.`);
-        if ((changeHours === '0' || changeHours.length > 3) || (targetID.length < 6 && targetID.length > 7)) {
+        if ((changeHours == '0' || changeHours.length > 3) || (targetID.length < 6 || targetID.length > 7)) {
             console.log("Error, unable to execute");
+            if (targetID == '' || (targetID.length < 6 || targetID.length > 7)) {
+                setMessage("Please Enter a valid Employee ID");
+            }
+            else if(changeHours == '0') {
+                setMessage("Please Enter an amount of hours");
+            }
+            else {
+                setMessage("An error has occured");
+            }
         }
         else {
             await api.updateTotalHours(changeHours, targetID);
             setMessage("Hours have been added");
+            setTargetID('');
+            setChangeHours(0);
         }
-        setTargetID('');
-        setChangeHours(0);
     };
 
     const handleSubtractHours = async () => {
         //Get Employee by ID entered into text box, get hours from that get and subtract input from second text box, try update hours with ID and result and return a message with either success or failure.
         //Ensure that hours does not fall below zero
         console.log(`Attempting to subtract ${changeHours} hours from ${targetID}.`);
-        if ((changeHours === '0' || changeHours.length > 3 )|| (targetID.length < 6 && targetID.length > 7) ) {
+        if ((changeHours == '0' || changeHours.length > 3 ) || (targetID.length < 6 || targetID.length > 7) ) {
             console.log("Error, unable to execute");
+            if (targetID == '' || (targetID.length < 6 || targetID.length > 7)) {
+                setMessage("Please Enter a valid Employee ID");
+            }
+            else if(changeHours == '0') {
+                setMessage("Please Enter an amount of hours");
+            }
+            else {
+                setMessage("An error has occured");
+            }
         }
         else {
             await api.updateTotalHours((-1 * changeHours), targetID);
