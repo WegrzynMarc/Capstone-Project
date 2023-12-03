@@ -172,7 +172,7 @@ export default function MessageTable(props) {
     const [message, setmessages] = useState([]);
     const [contents, setContents] = useState('');
     const [dropDownTable, setdropDownTable] = useState([]);
-    const [receiverID, setReceiverID] = useState('');
+    const [receiverID, setReceiverID] = useState('000001');
     const [messageWrite, setMessageWrite] = useState(false);
     //console.log(`in messageTable routes contains is ${JSON.stringify(message)}`);
 
