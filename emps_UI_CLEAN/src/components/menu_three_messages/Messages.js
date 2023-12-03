@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, component} from 'react';
 import API from '../../API_Interface/API_Interface'
 
 import Table from '@mui/material/Table';
@@ -7,7 +7,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Input } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
+
 
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -92,11 +94,23 @@ function dataParser(message, employeeID, employeeName) {
             }
             arrayToReturn.push(arraySubSection);
         }
-
     }
 
     //console.log(arrayToReturn);
     return arrayToReturn;
+}
+
+function dataParserDropTable(message) {
+    let array = []
+    for (let i = 1; i < message.length; i++) {
+        array.push({
+            name: message[i].firstName + ` ` + message[i].lastName,
+            employeeID: message[i].employeeID
+        })
+    }
+
+    console.log(array);
+    return array;
 }
 
 function convertMonthToNumberStr(monthName) {
@@ -157,8 +171,9 @@ function updateMessageList(employeeID, employeeName, setmessages) {
 export default function MessageTable(props) {
     const currentDate = new Date().toDateString();
     const [message, setmessages] = useState([]);
-    const [contents, setContents] = useState(''); 
-    const [empID, setEmpID] = useState('');
+    const [contents, setContents] = useState('');
+    const [dropDownTable, setdropDownTable] = useState([]);
+    const [receiverID, setReceiverID] = useState('');
     //console.log(`in messageTable routes contains is ${JSON.stringify(message)}`);
 
     const employeeID = props.employeeID;
@@ -168,20 +183,37 @@ export default function MessageTable(props) {
         setContents(event.target.value);
     };
 
-    const handleReceiverID = event => {
-        setEmpID(event.target.value);
-    };
+    const createSelectItems = () => {
+        let items = [];
+        //console.log(dropDownTable.length)
+        for (let i = 0; i < dropDownTable.length; i++) {             
+             items.push(<option key={i} value={dropDownTable[i].employeeID}>{dropDownTable[i].name}</option>);   
+             //here I will be creating my options dynamically based on
+             //what props are currently passed to the parent component
+        }
+        return items;
+    }  
+
+    const onDropdownSelected = (e) => {
+        setReceiverID(e.target.value);
+        console.log("THE VAL", receiverID);
+        //here you will see the current selected value of the select input
+    }
 
     const sendMessage = () => {
         let date = `${currentDate.slice(11)}-${convertMonthToNumberStr(currentDate.slice(4,7))}-${currentDate.slice(8, 10)}`
         const api = new API();
 
-        api.messagesCreate(employeeID, empID, date, 0, contents);
-        updateMessageList(employeeID, employeeName, setmessages);
+        if (receiverID === employeeID) {
+            //Error message
+        }
+        else {
+            api.messagesCreate(employeeID, receiverID, date, 0, contents);
+            updateMessageList(employeeID, employeeName, setmessages);
+        }
 
         //console.log(`messageContent: ${contents} | recID: ${empID} | senderID: ${employeeID}`)
         setContents('');
-        setEmpID('');
     }
     
     useEffect(() => {
@@ -194,8 +226,15 @@ export default function MessageTable(props) {
         }
 
         getmessages();
+
+        async function getDropDown() {
+            const routesJSONStringTwo = await api.allEmployees();
+            //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+            setdropDownTable(dataParserDropTable(routesJSONStringTwo.data));
+        }
+        
+        getDropDown()
     }, []);
-    
 
     const TRow = ({routeObject}) => {
 
@@ -262,11 +301,9 @@ export default function MessageTable(props) {
                 {
                     //Update to a drop-down table for easier use
                 }
-                <TextField
-                    label="Employee ID"
-                    value={empID}
-                    onChange = {handleReceiverID}
-                /> 
+                <select onChange={onDropdownSelected}>
+                    {createSelectItems()}
+                </select>
                 
                 <Button
                     variant="contained"

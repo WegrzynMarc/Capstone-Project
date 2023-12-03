@@ -8,6 +8,7 @@ import API from '../../API_Interface/API_Interface';
 export default function UpdateHours(props) {
     const employeeID = props.employeeID;
     const [currentMessage, setMessage] = useState ("Update Employee Hours");
+    const [secondaryMessage, setSecondaryMessage] = useState ("");
     const [targetID, setTargetID] = useState ("");
     const [changeHours, setChangeHours] = useState (0.00);
     
@@ -24,19 +25,22 @@ export default function UpdateHours(props) {
     const handleAddHours = async () => {
         //Get Employee by ID entered into text box, get hours from that get and add input from second text box, try update hours with ID and result and return a message with either success or failure.
         console.log(`Attempting to add ${changeHours} hours from ${targetID}.`);
-        if (changeHours === '0' || (targetID.length < 6 && targetID.length > 7)) {
+        if ((changeHours === '0' || changeHours.length > 3) || (targetID.length < 6 && targetID.length > 7)) {
             console.log("Error, unable to execute");
         }
         else {
             await api.updateTotalHours(changeHours, targetID);
+            setSecondaryMessage("Hours have been added");
         }
+        setTargetID('');
+        setChangeHours(0);
     };
 
     const handleSubtractHours = async () => {
         //Get Employee by ID entered into text box, get hours from that get and subtract input from second text box, try update hours with ID and result and return a message with either success or failure.
         //Ensure that hours does not fall below zero
         console.log(`Attempting to subtract ${changeHours} hours from ${targetID}.`);
-        if (changeHours === '0' || (targetID.length < 6 && targetID.length > 7)) {
+        if ((changeHours === '0' || changeHours.length > 3 )|| (targetID.length < 6 && targetID.length > 7) ) {
             console.log("Error, unable to execute");
         }
         else {
@@ -44,7 +48,13 @@ export default function UpdateHours(props) {
             let response = await api.employeeUnpaidWithID(targetID);
             if (response.data[0].unpaid_hours < 0) {
                 await api.setTotalHours(0, targetID);
+                setSecondaryMessage("Removed hours exceeded worked hour, hours have been set to 0");
             }
+            else {
+                setSecondaryMessage("Hours have been removed");
+            }
+            setTargetID('');
+            setChangeHours(0);
         }
     };
     
@@ -53,6 +63,12 @@ export default function UpdateHours(props) {
             <Box display="flex" justifyContent="center">
                 <Typography component="div" variant='h3'>
                     {currentMessage}
+                </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="center">
+                <Typography component="div" variant='h4'>
+                    {secondaryMessage}
                 </Typography>
             </Box>
 

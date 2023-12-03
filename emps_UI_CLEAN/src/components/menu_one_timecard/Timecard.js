@@ -43,17 +43,14 @@ export default function Timecard(props) {
 
     return (
         <Fragment>
-            <Typography component="div" variant='h3' align='center' gutterBottom>
-                Clock in / Clock out here
-            </Typography>
-
             <Box display="flex" justifyContent="center" gap={2}>
                 <Button
+                
                     variant="contained"
                     color="primary"
                     onClick={handleClockIn}
                     disabled={isClockedIn}
-                    sx={{ minWidth: 120, height: 120 }}
+                    sx={{ minWidth: 400, height: 400 }}
                 >
                     Clock In
                 </Button>
@@ -63,7 +60,7 @@ export default function Timecard(props) {
                     color="secondary"
                     onClick={handleClockOut}
                     disabled={!isClockedIn}
-                    sx={{ minWidth: 120, height: 120 }}
+                    sx={{ minWidth: 400, height: 400 }}
                 >
                     Clock Out
                 </Button>

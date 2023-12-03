@@ -60,6 +60,7 @@ const messageWithEmployeeID = (ctx) => {
                             (E.employeeID = M.senderID OR E.employeeID = ReceiverID) 
                         AND
                             (? = M.senderID OR ? = M.receiverID)
+                        ORDER BY date DESC
                         `;
             dbConnection.query({
                 sql: query,
@@ -92,13 +93,14 @@ const messagesUpdate = (ctx) => {
                     SET 
                        senderID = ?,
                        message = ?,
-                       hours = 0
+                       hours = 0,
+                       date = ?
                     WHERE  
                         messageID = ?
                     `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.employeeID, ctx.params.message, ctx.params.messageID]
+                values: [ctx.params.employeeID, ctx.params.message, ctx.params.date, ctx.params.messageID]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in MessageController::messagesUpdate", error);

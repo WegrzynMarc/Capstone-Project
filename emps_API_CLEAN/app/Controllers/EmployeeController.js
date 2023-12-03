@@ -4,7 +4,10 @@ const allEmployees = async (ctx) => {
     console.log('employee all employees called.');
     return new Promise((resolve, reject) => {
         const query = `
-                       SELECT *
+                        SELECT 
+                            employeeID, 
+                            firstName, 
+                            lastName
                         FROM 
                             employee
                         ORDER BY employeeID

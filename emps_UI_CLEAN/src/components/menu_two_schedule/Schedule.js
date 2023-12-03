@@ -23,39 +23,49 @@ import { Height, SwitchAccessShortcutAddOutlined } from '@mui/icons-material';
 const ScheduleTableAttributes = [
     {
         title: 'Time',
+        color: 'aa3f0ffa0',
         align: 'left'
     },
     {
         title: 'Monday',
+        color: 'af3f3faa3',
         align: 'left'
     },
     {
         title: 'Tuesday',
+        color: 'aa3f0ffa0',
         align: 'left'
     },
     {
         title: 'Wednsday',
+        color: 'af3f3faa3',
         align: 'left'
     },
     {   
         title: 'Thursday',
+        color: 'aa3f0ffa0',
         alight: 'left'
     },
     {
         title: 'Friday',
+        color: 'af3f3faa3',
         alight: 'left'
     },
     {
         title: 'Saturday',
+        color: 'aa3f0ffa0',
         alight: 'left'
     },
     {
         title: 'Sunday',
+        color: 'af3f3faa3',
         align: 'left'
     }
 ];
 
 //Finding the Date SUCKS
+//Edit: 12/1/2023
+//Still sucks
 function findMonday(date) {
     let dateMonday = 0;
 
@@ -64,6 +74,7 @@ function findMonday(date) {
     var monthName = date.slice(4, 7); //January is 0!
     var month = 0
     var year = date.slice(11);
+    var maxDayInMonth = 0;
 
     //Day Math
     if (dayName === "Mon") {
@@ -136,40 +147,97 @@ function findMonday(date) {
         {
             if (year % 4 === 0) 
             {
+                maxDayInMonth = 29;
                 dateMonday += 29;
             }
             else 
             {
+                maxDayInMonth = 28;
                 dateMonday += 28;
             }
         }
         else if (month === 3 || month === 5 || month === 8 || month === 10) 
         {
+            maxDayInMonth = 30;
             dateMonday += 30;
         }
         else 
         {
+            maxDayInMonth = 31;
             dateMonday += 31;
         }
     }
-    
-    return dateMonday;
+
+    return [dateMonday, maxDayInMonth];
 }
 
 function weeklyViewAssembler(schedule, date) {
-    const currDay = findMonday(date);
+    let value = findMonday(date);
+    var currDay = value[0];
+    var offset = 0;
+    const maxDaysInMonth = value[1];
+
+    console.log(`${maxDaysInMonth} | ${currDay}`)
     let array = [];
     let subArray = [];
     let hours = 0;
     let timeDisplay = "";
 
-    let mondayShift = dailyViewAssembler(schedule, currDay);
-    let tuesdayShift = dailyViewAssembler(schedule, currDay + 1);
-    let wednesdayShift = dailyViewAssembler(schedule, currDay + 2);
-    let thursdayShift = dailyViewAssembler(schedule, currDay + 3);
-    let fridayShift = dailyViewAssembler(schedule, currDay + 4);
-    let saturdayShift = dailyViewAssembler(schedule, currDay + 5);
-    let sundayShift = dailyViewAssembler(schedule, currDay + 6);
+    let mondayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Monday | ${currDay}`)
+    }
+
+    let tuesdayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay + offset > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Tuesday| ${currDay}`)
+    }
+
+    let wednesdayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay + offset > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Wednesday | ${currDay}`)
+    }
+
+    let thursdayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay + offset > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Thursday | ${currDay}`)
+    }
+
+    let fridayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay + offset > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Friday | ${currDay}`)
+    }
+
+    let saturdayShift = dailyViewAssembler(schedule, currDay + offset);
+
+    offset++;
+    if (currDay + offset > maxDaysInMonth) {
+        currDay = 1;
+        offset = 0;
+        //console.log(`Hit Saturday | ${currDay}`)
+    }
+
+    let sundayShift = dailyViewAssembler(schedule, currDay + offset);
 
     for (let i = 0; i < 48; i++) {
         if (i % 2 === 0) {
@@ -238,7 +306,7 @@ function dailyViewAssembler(schedule, currDay) {
         start = schedule[i].startTime;
         end = schedule[i].endTime;
         day = schedule[i].startDate.slice(8, 10);
-        if (day === String(currDay)) {
+        if (parseInt(day) === currDay) {
             shifts.push(schedule[i]);
             //console.log(`${start} | ${end} | ${day}`);
         }
@@ -333,29 +401,38 @@ function dailyViewAssembler(schedule, currDay) {
     return (arrayToReturn);
 }
 
-function scheduleBox(value) {
+function scheduleBox(value, colorVal) {
     if (value === 1) {
-        return (
-            <Fragment>
-                <TableCell align="left" bgcolor='lightblue'></TableCell>
-            </Fragment>
-        )
+        if (colorVal === 0) {
+            return (
+                <Fragment>
+                    <TableCell align="left" bgcolor='8f3f3f88'></TableCell>
+                </Fragment>
+            )
+        }
+        else {
+            return (
+                <Fragment>
+                    <TableCell align="left" bgcolor='8f3f0ff80'></TableCell>
+                </Fragment>
+            )
+        }
     }
     else {
-        return (
-            <Fragment>
-                <TableCell align="left" bgcolor='white'></TableCell>
-            </Fragment>
-        )
-    }
-}
-
-function colorAlternator(value) {
-    if (value % 2 === 0) {
-        return 'aa3f0ffa0';
-    }
-    else {
-        return 'af3f3faa3';
+        if (colorVal === 0) {
+            return (
+                <Fragment>
+                    <TableCell align="left" bgcolor='f00f00f00'></TableCell>
+                </Fragment>
+            )
+        }
+        else {
+            return (
+                <Fragment>
+                    <TableCell align="left" bgcolor='ff0ff0ff0'></TableCell>
+                </Fragment>
+            )
+        }
     }
 }
 
@@ -418,25 +495,25 @@ export default function MessageTable(props) {
                 <TableCell align="left" bgcolor={colorAlternator2(colorVal)}> {routeObject.hours} </TableCell>
 
                 {
-                    scheduleBox(routeObject.monday)
+                    scheduleBox(routeObject.monday, 0)
                 }
                 {
-                    scheduleBox(routeObject.tuesday)
+                    scheduleBox(routeObject.tuesday, 1)
                 }
                 {
-                    scheduleBox(routeObject.wednsday)
+                    scheduleBox(routeObject.wednsday, 0)
                 }
                 {
-                    scheduleBox(routeObject.thursday)
+                    scheduleBox(routeObject.thursday, 1)
                 }
                 {
-                    scheduleBox(routeObject.friday)
+                    scheduleBox(routeObject.friday, 0)
                 }
                 {
-                    scheduleBox(routeObject.saturday)
+                    scheduleBox(routeObject.saturday, 1)
                 }
                 {
-                    scheduleBox(routeObject.sunday)
+                    scheduleBox(routeObject.sunday, 0)
                 }
                 
             </TableRow>
@@ -455,7 +532,7 @@ export default function MessageTable(props) {
                                     ScheduleTableAttributes.map((attr, idx) =>
                                         <TableCell  key={idx}
                                                     align={attr.align}
-                                                    bgcolor={colorAlternator(idx)}>
+                                                    bgcolor={attr.color}>
                                                     {attr.title}
                                         </TableCell>)
                                 }

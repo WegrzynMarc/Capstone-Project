@@ -68,12 +68,17 @@ export default class APIInterface {
 
     }
 
+
+    async allEmployees() {
+        return axiosAgent.get(`employee/all-employees`);
+    }
+
     async messagesWithEmployeeID(employeeID) {
         return axiosAgent.get(`message/${employeeID}`);
     }
 
-    async messagesUpdate(employeeID, messageID, message) {
-        axiosAgent.get(`message/${employeeID}/${messageID}/${message}`);
+    async messagesUpdate(employeeID, messageID, date, message) {
+        axiosAgent.get(`message/${employeeID}/${messageID}/${date}/${message}`);
     }
 
     async messagesCreate(senderID, receiverID, date, hours, message) {

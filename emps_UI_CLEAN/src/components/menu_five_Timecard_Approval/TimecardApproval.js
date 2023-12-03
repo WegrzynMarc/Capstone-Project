@@ -16,7 +16,9 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'; 
+
 
 
 const messageTableAttributes = [
@@ -85,7 +87,51 @@ const messageRouteTableAttributes = [
     },
 ];
 
+function convertMonthToNumberStr(monthName) {
+    let month = '';
+    //Conver the month name into an integer
+    if (monthName === "Jan") {
+        month = '01';
+    }
+    else if (monthName === "Feb") {
+        month = '02';
+    }
+    else if (monthName === "Mar") {
+        month = '03';
+    }
+    else if (monthName === "Apr") {
+        month = '04';
+    }
+    else if (monthName === "May") {
+        month = '05';
+    }
+    else if (monthName === "Jun") {
+        month = '06';
+    }
+    else if (monthName === "Jul") {
+        month = '07';
+    }
+    else if (monthName === "Aug") {
+        month = '08';
+    }
+    else if (monthName === "Sep") {
+        month = '09';
+    }
+    else if (monthName === "Oct") {
+        month = '10';
+    }
+    else if (monthName === "Nov") {
+        month = '11';
+    }
+    else if (monthName === "Dec") {
+        month = '12';
+    }
+
+    return month;
+}
+
 function HandleApprove(employeeID, messageID, setmessages, employeeName) {
+    const currentDate = new Date().toDateString();
     //Perform a search to find the correct entry
     //The assumption is that all senderID's are 000000
     let messageNumber = 0;
@@ -103,7 +149,8 @@ function HandleApprove(employeeID, messageID, setmessages, employeeName) {
     //console.log(`EmpID: ${employeeID}, mesID: ${dummy[messageNumber].messageID}, message: ${message}`);
 
     async function updatemessages() {
-        await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, message);
+        let date = `${currentDate.slice(11)}-${convertMonthToNumberStr(currentDate.slice(4,7))}-${currentDate.slice(8, 10)}`
+        await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, date, message);
         //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
         updatehours();
     }
@@ -125,7 +172,8 @@ function HandleApprove(employeeID, messageID, setmessages, employeeName) {
     
 };
 
-function HandleDeny(employeeID, messageID, setmessages, employeeName) {
+function HandleDeny(employeeID, messageID, setmessages, response, setErrMsg, employeeName) {
+    const currentDate = new Date().toDateString();
     //Perform a search to find the correct entry
     //The assumption is that all senderID's are 000000
     let messageNumber = 0;
@@ -136,24 +184,29 @@ function HandleDeny(employeeID, messageID, setmessages, employeeName) {
         }
     }
 
-    const api = new API();
-    //Message cannot be empty
-    const message = "Rejected, please see a manager for further action";
-
-    async function updatemessages() {
-        await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, message);
-        //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+    if (response === '') {
+        setErrMsg("Response cannot be blank for a deny");
     }
+    else {
+        const api = new API();
+        //Message cannot be empty
 
-    updatemessages();
+        async function updatemessages() {
+            let date = `${currentDate.slice(11)}-${convertMonthToNumberStr(currentDate.slice(4,7))}-${currentDate.slice(8, 10)}`
+            await api.messagesUpdate(employeeID, dummy[messageNumber].messageID, date, response);
+            //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+        }
 
-    async function getmessages() {
-        const routesJSONString = await api.messagesWithEmployeeID('000000');
-        //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
-        setmessages(dataParser(routesJSONString.data, employeeID, employeeName));
+        updatemessages();
+
+        async function getmessages() {
+            const routesJSONString = await api.messagesWithEmployeeID('000000');
+            //console.log(`messages from the DB ${JSON.stringify(routesJSONString)}`);
+            setmessages(dataParser(routesJSONString.data, employeeID, employeeName));
+        }
+
+        getmessages();
     }
-
-    getmessages();
 };
 
 function dataParser(message, employeeID, employeeName) {
@@ -202,7 +255,7 @@ function dataParser(message, employeeID, employeeName) {
                 senderName: senderName,
                 receiverName: receiverName,
                 receiverID: receiverID,
-                date: message[i].date,
+                date: message[i].date.slice(0, 10),
                 message: message[i].message,
                 messageID: message[i].messageID,
                 hours: message[i].hours
@@ -212,7 +265,7 @@ function dataParser(message, employeeID, employeeName) {
             arraySubSection = {
                 receiverID: receiverID,
                 receiverName: receiverName,
-                date: message[i].date,
+                date: message[i].date.slice(0, 10),
                 messageID: message[i].messageID,
                 hours: message[i].hours
             }
@@ -228,10 +281,16 @@ function dataParser(message, employeeID, employeeName) {
 export default function MessageTable(props) {
 
     const [message, setmessages] = useState([]);
+    const [response, setResponse] = useState('');
+    const [errMsg, setErrMsg] = useState('');
     //console.log(`in messageTable routes contains is ${JSON.stringify(message)}`);
 
     const employeeID = props.employeeID;
     const employeeName = props.employeeName;
+
+    const handleResponse = event => {
+        setResponse(event.target.value);
+    };
     
     useEffect(() => {
         const api = new API();
@@ -280,7 +339,7 @@ export default function MessageTable(props) {
                 <TableCell align="left">
                     <Button variant="contained"
                         title="Deny"
-                        onClick={() => HandleDeny(employeeID, routeObject.messageID, setmessages, employeeName)}>
+                        onClick={() => HandleDeny(employeeID, routeObject.messageID, setmessages, response, setErrMsg, employeeName)}>
                             Deny
                     </Button>
                 </TableCell>
@@ -315,6 +374,24 @@ export default function MessageTable(props) {
     }
 
     return <Fragment>
+            <Box display="flex" justifyContent="center">
+                <Typography component="div" variant='h4'>
+                    {errMsg}
+                </Typography>
+            </Box>
+            
+            <Box mt={5} display="flex" justifyContent="center">
+                <TextField
+                    label="Reason for Denying Here"
+                    fullWidth
+                    value={response}
+                    onChange = {handleResponse}
+                />
+                
+            </Box>
+
+            <Box mt={5}>
+            </Box>
         {
             message.length > 0 &&
                 <TableContainer component={Paper}>

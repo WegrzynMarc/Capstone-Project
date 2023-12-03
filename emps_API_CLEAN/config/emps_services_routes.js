@@ -41,6 +41,7 @@ const employeeRouter = require('koa-router')({
     prefix: '/employee'
 })
 
+employeeRouter.get('/all-employees', EmployeeController.allEmployees, (err) => console.log("emps_services_routes.ks: employee-route error:", err))
 employeeRouter.get('/:employeeID', EmployeeController.employeeUnpaidWithID, (err) => console.log("emps_services_routes.ks: employee-route error:", err))
 employeeRouter.put('/set-hours/:employeeID/:newHours', EmployeeController.setTotalHours, (err) => console.log("emps_services_routes.js: employee-route error:", err))
 employeeRouter.put('/update-hours/:employeeID/:newHours', EmployeeController.updateTotalHours, (err) => console.log("emps_services_routes.js: employee-route error:", err))
@@ -50,7 +51,7 @@ const messageRouter = require('koa-router')({
     prefix: '/message'
 })
 messageRouter.get('/:employeeID', MessageController.messageWithEmployeeID, (err) => console.log("emps_services_routes.js: message-route error:", err))
-messageRouter.get('/:employeeID/:messageID/:message', MessageController.messagesUpdate, (err) => console.log("emps_services_routes.js: message-route error:", err))
+messageRouter.get('/:employeeID/:messageID/:date/:message', MessageController.messagesUpdate, (err) => console.log("emps_services_routes.js: message-route error:", err))
 messageRouter.get('/:senderID/:receiverID/:date/:hours/:message', MessageController.createMessage, (err) => console.log("emps_services_routes.js: message-create-route error:", err))
 
 const ClockInController = require('../app/Controllers/ClockInController.js');
