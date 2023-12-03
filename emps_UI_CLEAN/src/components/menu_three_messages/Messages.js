@@ -1,5 +1,6 @@
-import React, {useState, useEffect, Fragment, component} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import API from '../../API_Interface/API_Interface'
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,18 +8,16 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Input } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
 
-
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 
 const messageTableAttributes = [
     
@@ -174,6 +173,7 @@ export default function MessageTable(props) {
     const [contents, setContents] = useState('');
     const [dropDownTable, setdropDownTable] = useState([]);
     const [receiverID, setReceiverID] = useState('');
+    const [messageWrite, setMessageWrite] = useState(false);
     //console.log(`in messageTable routes contains is ${JSON.stringify(message)}`);
 
     const employeeID = props.employeeID;
@@ -214,6 +214,7 @@ export default function MessageTable(props) {
 
         //console.log(`messageContent: ${contents} | recID: ${empID} | senderID: ${employeeID}`)
         setContents('');
+        setMessageWrite(false);
     }
     
     useEffect(() => {
@@ -241,7 +242,7 @@ export default function MessageTable(props) {
         const [open, setOpen] = React.useState(false);
         
         return (
-        <Fragment>
+            <Fragment>
             <TableRow
                 sx={{ '& > *': { borderBottom: 'unset' } }}
                 >
@@ -288,37 +289,59 @@ export default function MessageTable(props) {
     }
 
     return <Fragment>
-            <Box>
-            </Box>
-            
-            <Box mt={5} display="flex" justifyContent="center" gap={3}>
-                <TextField
-                    label="Message Here"
-                    fullWidth
-                    value={contents}
-                    onChange = {handleMessageContent}
-                />
-                {
-                    //Update to a drop-down table for easier use
-                }
-                <select onChange={onDropdownSelected}>
-                    {createSelectItems()}
-                </select>
-                
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={sendMessage}
-                    sx={{ minWidth: 20, height: 60 }}
-                >
-                    Send Message
+        <div>
+            {(!messageWrite) && (
+                <Button variant="contained" 
+                        color="primary" 
+                        onClick={() => {
+                                console.log(`${messageWrite} before`);
+                                setMessageWrite(true);
+                                console.log(`${messageWrite} after`);
+                            }
+                        } 
+                        sx={{ minWidth: 60, height: 60, border: 2.5, borderColor: 'lightBlue', borderRadius: '50%', alignItems: 'center', justifyContent: 'center'}} 
+                        style={{position: 'fixed', bottom: '25px', right: '25px'}}
+                        >
+                    <Typography variant='h4' 
+                                sx={{fontWeight: 'bold'}}>
+                        +
+                    </Typography>
                 </Button>
-                
-            </Box>
-
-            <Box mt={5}>
-            </Box>
-            
+                )
+            }
+        </div>
+        <div style={{position: 'fixed', display: 'flex', alignItems: 'center', justifyContent: 'center', bottom: '50px', left: '0px', right: '0px'}}>
+            {(messageWrite) && (
+                <Box variant="contained" 
+                        sx={{minWidth: '750px', height: 100, backgroundColor: 'white'}} 
+                        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                        gap={3}
+                        >
+                    <TextField
+                        label="Message Here"
+                        fullWidth
+                        value={contents}
+                        onChange = {handleMessageContent}
+                    />
+                    {
+                        //Update to a drop-down table for easier use
+                    }
+                    <select onChange={onDropdownSelected}>
+                        {createSelectItems()}
+                    </select>
+                    
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={sendMessage}
+                        sx={{ minWidth: 20, height: 60 }}
+                    >
+                        Send Message
+                    </Button>
+                </Box>
+                )
+            }
+        </div>
         {
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650,
