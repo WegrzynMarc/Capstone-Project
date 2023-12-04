@@ -177,7 +177,7 @@ function weeklyViewAssembler(schedule, date) {
     var offset = 0;
     const maxDaysInMonth = value[1];
 
-    console.log(`${maxDaysInMonth} | ${currDay}`)
+    //console.log(`${maxDaysInMonth} | ${currDay}`)
     let array = [];
     let subArray = [];
     let hours = 0;
@@ -492,7 +492,7 @@ export default function MessageTable(props) {
         return (
         <Fragment>
             <TableRow sx={{MaxHeight:'100%', MaxWidth:'100%'}}>
-                <TableCell align="left" bgcolor={colorAlternator2(colorVal)}> {routeObject.hours} </TableCell>
+                <TableCell align="left" bgcolor={colorAlternator2(colorVal)} sx={{fontSize: 'large'}}> {routeObject.hours} </TableCell>
 
                 {
                     scheduleBox(routeObject.monday, 0)
@@ -532,7 +532,8 @@ export default function MessageTable(props) {
                                     ScheduleTableAttributes.map((attr, idx) =>
                                         <TableCell  key={idx}
                                                     align={attr.align}
-                                                    bgcolor={attr.color}>
+                                                    bgcolor={attr.color}
+                                                    sx={{fontSize: 'large'}}>
                                                     {attr.title}
                                         </TableCell>)
                                 }

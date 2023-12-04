@@ -109,6 +109,15 @@ export default class APIInterface {
         return axiosAgent.get(`schedule/${employeeID}`);
     }
 
+    async deleteSchedule(startDate, employeeID) {
+        return axiosAgent.get(`schedule/${employeeID}/${startDate}`);
+    }
+
+    async addSchedule(startDate, employeeID, startTime, endDate, endTime) {
+        return axiosAgent.get(`schedule/${employeeID}/${startDate}/${startTime}/${endDate}/${endTime}`);
+    }
+
+
 
     //Reference API Calls for quick reference
     //Do not impliment the commented out lines, these are only for reference and not production

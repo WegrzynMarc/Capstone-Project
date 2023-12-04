@@ -50,7 +50,7 @@ export default function Timecard(props) {
                     color="primary"
                     onClick={handleClockIn}
                     disabled={isClockedIn}
-                    sx={{ minWidth: 400, height: 400 }}
+                    sx={{ minWidth: 400, height: 400, fontSize: "40px" }}
                 >
                     Clock In
                 </Button>
@@ -60,7 +60,7 @@ export default function Timecard(props) {
                     color="secondary"
                     onClick={handleClockOut}
                     disabled={!isClockedIn}
-                    sx={{ minWidth: 400, height: 400 }}
+                    sx={{ minWidth: 400, height: 400, fontSize: "40px" }}
                 >
                     Clock Out
                 </Button>

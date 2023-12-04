@@ -323,11 +323,11 @@ export default function MessageTable(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell align="left">{routeObject.senderName}</TableCell>
-                <TableCell align="left">{routeObject.receiverName}</TableCell>
-                <TableCell align="left">{routeObject.receiverID}</TableCell>
-                <TableCell align="left">{routeObject.date}</TableCell>
-                <TableCell align="left">{routeObject.hours}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.senderName}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.receiverName}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.receiverID}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.date}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.hours}</TableCell>
                 <TableCell align="left">
                     <Button variant="contained"
                         title="Approve"
@@ -357,7 +357,8 @@ export default function MessageTable(props) {
                                         <TableCell key={idx}
                                                     align={attr.align}
                                                     component="th" 
-                                                    scope="row">      
+                                                    scope="row" 
+                                                    sx={{fontSize: 'large'}}>      
                                             {
                                                 routeObject[attr.attributeDBName]
                                             }
@@ -402,7 +403,8 @@ export default function MessageTable(props) {
                                 {
                                     messageTableAttributes.map((attr, idx) =>
                                         <TableCell  key={idx}
-                                                    align={attr.align}>
+                                                    align={attr.align}
+                                                    sx={{fontSize: 'large'}}>
                                                     {attr.title}
                                         </TableCell>)
                                 }

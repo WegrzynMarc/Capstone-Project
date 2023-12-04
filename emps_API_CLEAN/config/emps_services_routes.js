@@ -89,6 +89,13 @@ const scheduleRouter = require('koa-router')({
 scheduleRouter.get('/:employeeID', ScheduleController.employeeSchedule, (err) => {
     console.log("schedule-route error:", err);
 })
+scheduleRouter.get('/:employeeID/:startDate', ScheduleController.deleteSchedule, (err) => {
+    console.log("schedule-route error:", err);
+})
+
+scheduleRouter.get('/:employeeID/:startDate/:startTime/:endDate/:endTime', ScheduleController.addSchedule, (err) => {
+    console.log("schedule-route error:", err);
+})
 
 // Routes router configuration.
 

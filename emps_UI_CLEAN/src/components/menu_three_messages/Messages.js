@@ -173,7 +173,7 @@ export default function MessageTable(props) {
     const [message, setmessages] = useState([]);
     const [contents, setContents] = useState('');
     const [dropDownTable, setdropDownTable] = useState([]);
-    const [receiverID, setReceiverID] = useState('');
+    const [receiverID, setReceiverID] = useState('000001');
     //console.log(`in messageTable routes contains is ${JSON.stringify(message)}`);
 
     const employeeID = props.employeeID;
@@ -196,7 +196,7 @@ export default function MessageTable(props) {
 
     const onDropdownSelected = (e) => {
         setReceiverID(e.target.value);
-        console.log("THE VAL", receiverID);
+        //console.log("THE VAL", receiverID);
         //here you will see the current selected value of the select input
     }
 
@@ -254,9 +254,9 @@ export default function MessageTable(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell align="left">{routeObject.senderName}</TableCell>
-                <TableCell align="left">{routeObject.receiverName}</TableCell>
-                <TableCell align="left">{routeObject.date}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.senderName}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.receiverName}</TableCell>
+                <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.date}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -271,7 +271,8 @@ export default function MessageTable(props) {
                                         <TableCell key={idx}
                                                     align={attr.align}
                                                     component="th" 
-                                                    scope="row">      
+                                                    scope="row"
+                                                    sx={{fontSize: 'large'}}>      
                                             {
                                                 routeObject[attr.attributeDBName]
                                             }
@@ -333,7 +334,8 @@ export default function MessageTable(props) {
                             {
                                 messageTableAttributes.map((attr, idx) =>
                                     <TableCell  key={idx}
-                                                align={attr.align}>
+                                                align={attr.align}
+                                                sx={{fontSize: 'large'}}>
                                         {attr.title}
                                     </TableCell>)
                             }

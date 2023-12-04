@@ -88,12 +88,12 @@ export default function UpdateHours(props) {
                 />
             </Box>
 
-            <Box display="flex" justifyContent="center" mt={10} gap={2}>
+            <Box display="flex" justifyContent="center" mt={10} gap={10}>
                 <Button
                     variant="contained"
                     color="primary"
                     onClick={handleAddHours}
-                    sx={{ minWidth: 120, height: 120 }}
+                    sx={{ minWidth: 200, height: 150 }}
                 >
                     ADD
                 </Button>
@@ -102,7 +102,7 @@ export default function UpdateHours(props) {
                     variant="contained"
                     color="secondary"
                     onClick={handleSubtractHours}
-                    sx={{ minWidth: 120, height: 120 }}
+                    sx={{ minWidth: 200, height: 150 }}
                 >
                     RMV
                 </Button>
