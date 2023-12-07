@@ -1,6 +1,5 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, component} from 'react';
 import API from '../../API_Interface/API_Interface'
-
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,16 +7,18 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Input } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
 
+
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const messageTableAttributes = [
     
@@ -243,49 +244,50 @@ export default function MessageTable(props) {
         
         return (
             <Fragment>
-            <TableRow
-                sx={{ '& > *': { borderBottom: 'unset' } }}
-                >
-                <TableCell>
-                    <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    onClick={() => setOpen(!open)}
+                <TableRow
+                    sx={{ '& > *': { borderBottom: 'unset' } }}
                     >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
-                <TableCell align="left">{routeObject.senderName}</TableCell>
-                <TableCell align="left">{routeObject.receiverName}</TableCell>
-                <TableCell align="left">{routeObject.date}</TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                            </Typography>
-                            <Table size="small" aria-label="Message Information">
-                                <TableBody>
-                                {
-                                    messageRouteTableAttributes.map((attr, idx) => (
-                                        <TableCell key={idx}
-                                                    align={attr.align}
-                                                    component="th" 
-                                                    scope="row">      
-                                            {
-                                                routeObject[attr.attributeDBName]
-                                            }
-                                        </TableCell>
-                                ))}
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </Fragment>
-        );
+                    <TableCell>
+                        <IconButton
+                        aria-label="expand row"
+                        size="small"
+                        onClick={() => setOpen(!open)}
+                        >
+                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                    </TableCell>
+                    <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.senderName}</TableCell>
+                    <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.receiverName}</TableCell>
+                    <TableCell align="left" sx={{fontSize: 'large'}}>{routeObject.date}</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                            <Box sx={{ margin: 1 }}>
+                                <Typography variant="h6" gutterBottom component="div">
+                                </Typography>
+                                <Table size="small" aria-label="Message Information">
+                                    <TableBody>
+                                    {
+                                        messageRouteTableAttributes.map((attr, idx) => (
+                                            <TableCell key={idx}
+                                                        align={attr.align}
+                                                        component="th" 
+                                                        scope="row"
+                                                        sx={{fontSize: 'large'}}>      
+                                                {
+                                                    routeObject[attr.attributeDBName]
+                                                }
+                                            </TableCell>
+                                    ))}
+                                    </TableBody>
+                                </Table>
+                            </Box>
+                        </Collapse>
+                    </TableCell>
+                </TableRow>
+            </Fragment>
+            );
     }
 
     return <Fragment>
@@ -313,10 +315,25 @@ export default function MessageTable(props) {
         <div style={{position: 'fixed', display: 'flex', alignItems: 'center', justifyContent: 'center', bottom: '50px', left: '0px', right: '0px'}}>
             {(messageWrite) && (
                 <Box variant="contained" 
-                        sx={{minWidth: '750px', height: 100, backgroundColor: 'white'}} 
+                        sx={{minWidth: '750px', height: 75, backgroundColor: 'white', border: 1 ,borderColor: 'gray'}} 
                         style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
                         gap={3}
                         >
+                    <Button 
+                            onClick={() => {
+                                    console.log(`${messageWrite} before`);
+                                    setMessageWrite(false);
+                                    console.log(`${messageWrite} after`);
+                                }
+                            } 
+                            sx={{ minWidth: 60, height: 60, border: 2.5, borderColor: 'gray', borderRadius: '50%', alignItems: 'center', justifyContent: 'center'}} 
+                            style={{position: 'fixed', bottom: '25px', right: '25px'}}
+                            >
+                        <Typography variant='h4' 
+                                    sx={{fontWeight: 'bold'}}>
+                            X
+                        </Typography>
+                    </Button>
                     <TextField
                         label="Message Here"
                         fullWidth
@@ -326,9 +343,11 @@ export default function MessageTable(props) {
                     {
                         //Update to a drop-down table for easier use
                     }
-                    <select onChange={onDropdownSelected}>
+                    <Box display="flex" justifyContent="center" sx={{ minWidth: 250, height: 55 }}>
+                        <select onChange={onDropdownSelected}>
                         {createSelectItems()}
-                    </select>
+                        </select>
+                    </Box>
                     
                     <Button
                         variant="contained"
@@ -356,7 +375,8 @@ export default function MessageTable(props) {
                             {
                                 messageTableAttributes.map((attr, idx) =>
                                     <TableCell  key={idx}
-                                                align={attr.align}>
+                                                align={attr.align}
+                                                sx={{fontSize: 'large'}}>
                                         {attr.title}
                                     </TableCell>)
                             }
